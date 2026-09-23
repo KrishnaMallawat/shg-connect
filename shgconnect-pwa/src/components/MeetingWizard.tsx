@@ -6,7 +6,7 @@ import { UserCheck, Check, DollarSign, HandCoins, ArrowRight, ArrowLeft, CheckCi
 import { tts } from '../services/tts';
 import { sound } from '../services/sound';
 import { CashBoxReconciliation } from './CashBoxReconciliation';
-import { ResolutionRegister } from './ResolutionRegister';
+
 import { eventBus } from '../services/eventBus';
 
 interface MeetingWizardProps {
@@ -449,13 +449,45 @@ export const MeetingWizard: React.FC<MeetingWizardProps> = ({
               </p>
             </div>
 
-            {/* Proceedings Resolution Logger */}
-            <ResolutionRegister
-              members={members}
-              resolutions={[]}
-              language={language}
-              onAddResolution={handleAddSessionResolution}
-            />
+            {/* Simplified Proceedings Logger */}
+            <div className="bg-white border border-[#E2DDD3] p-4 rounded-2xl space-y-3">
+              <label className="block text-xs font-bold text-stone-700">
+                {language === 'mr' ? 'बैठकीचे मुख्य निर्णय (Meeting Decisions / Resolutions)' : 'Meeting Decisions / Resolutions'}
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder={language === 'mr' ? 'उदा. मासिक बचत जमा करण्याचा ठराव...' : 'e.g. Resolved to collect savings...'}
+                  className="flex-1 bg-[#F7F4EC] border border-[#E2DDD3] rounded-xl px-3 py-2 text-sm font-medium text-[#1C1917] outline-none"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                      handleAddSessionResolution({
+                        date: new Date().toISOString().split('T')[0],
+                        title: e.currentTarget.value.trim(),
+                        category: 'LIVELIHOOD',
+                        description: e.currentTarget.value.trim(),
+                        proposedBy: 'Officer',
+                        secondedBy: 'Group',
+                        approvedUnanimously: true
+                      });
+                      e.currentTarget.value = '';
+                    }
+                  }}
+                />
+              </div>
+              <p className="text-[10px] text-stone-500">{language === 'mr' ? 'नोंदवण्यासाठी Enter दाबा' : 'Press Enter to add'}</p>
+
+              {sessionResolutions.length > 0 && (
+                <ul className="space-y-2 mt-3 max-h-[150px] overflow-y-auto">
+                  {sessionResolutions.map((res, idx) => (
+                    <li key={idx} className="text-xs bg-[#FDFBF7] p-2 rounded-lg border border-[#E2DDD3] flex items-start gap-2">
+                      <span className="text-emerald-700 font-black mt-0.5">•</span>
+                      <span className="font-semibold text-stone-800">{res.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             {/* Loan Disbursal Form */}
             <div className="bg-white border border-[#E2DDD3] p-4 rounded-2xl">

@@ -1,49 +1,60 @@
 import React from 'react';
-import { SupportedLanguage } from '../../types/shg';
-import { Home, PiggyBank, Landmark, Calendar, MoreHorizontal } from 'lucide-react';
+import { Role, SupportedLanguage } from '../../types/shg';
+import { Home, PiggyBank, Landmark, Calendar, MoreHorizontal, ShieldCheck, Activity, Search, RefreshCw, Award, Settings, Users } from 'lucide-react';
 
 interface MobileNavProps {
   activeTab: string;
   onSelectTab: (tab: string) => void;
   language: SupportedLanguage;
+  currentRole: Role;
 }
 
-const NAV_ITEMS = (language: SupportedLanguage) => [
-  {
-    id: 'home',
-    label: language === 'mr' ? 'मुख्य' : language === 'hi' ? 'मुख्य' : 'Home',
-    icon: Home,
-    color: '#1A6B4A',
-  },
-  {
-    id: 'savings',
-    label: language === 'mr' ? 'बचत' : language === 'hi' ? 'बचत' : 'Savings',
-    icon: PiggyBank,
-    color: '#1A6B4A',
-  },
-  {
-    id: 'loans',
-    label: language === 'mr' ? 'कर्ज' : language === 'hi' ? 'ऋण' : 'Loans',
-    icon: Landmark,
-    color: '#1D5FA8',
-  },
-  {
-    id: 'meetings',
-    label: language === 'mr' ? 'बैठका' : language === 'hi' ? 'बैठकें' : 'Meetings',
-    icon: Calendar,
-    color: '#E8720C',
-  },
-  {
-    id: 'more',
-    label: language === 'mr' ? 'अधिक' : language === 'hi' ? 'अधिक' : 'More',
-    icon: MoreHorizontal,
-    color: '#6D28D9',
-  },
-];
+const getNavItems = (language: SupportedLanguage, role: Role) => {
+  const tHome = language === 'mr' ? 'मुख्य' : language === 'hi' ? 'मुख्य' : 'Home';
+  const tMore = language === 'mr' ? 'अधिक' : language === 'hi' ? 'अधिक' : 'More';
 
-export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, onSelectTab, language }) => {
-  const items = NAV_ITEMS(language);
-  const moreTabIds = ['passbook', 'calculator', 'panchasutra', 'reports', 'settings', 'sync'];
+  if (role === 'AUDITOR') {
+    return [
+      { id: 'home', label: tHome, icon: Home, color: '#6D28D9' },
+      { id: 'panchasutra', label: 'Panchasutra', icon: Award, color: '#6D28D9' },
+      { id: 'verifier', label: 'Audit', icon: ShieldCheck, color: '#6D28D9' },
+      { id: 'reports', label: 'Reports', icon: Search, color: '#6D28D9' },
+      { id: 'settings', label: language === 'mr' ? 'सेटिंग्ज' : 'Settings', icon: Settings, color: '#6D28D9' },
+    ];
+  }
+
+  if (role === 'ANIMATOR') {
+    return [
+      { id: 'home', label: tHome, icon: Home, color: '#1D5FA8' },
+      { id: 'members', label: 'Portfolio', icon: Activity, color: '#1D5FA8' },
+      { id: 'sync', label: 'Sync', icon: RefreshCw, color: '#1D5FA8' },
+      { id: 'settings', label: language === 'mr' ? 'सेटिंग्ज' : 'Settings', icon: Settings, color: '#1D5FA8' },
+    ];
+  }
+
+  if (role === 'OFFICE_BEARER') {
+    return [
+      { id: 'home', label: tHome, icon: Home, color: '#E8720C' },
+      { id: 'members', label: language === 'mr' ? 'सदस्य' : language === 'hi' ? 'सदस्य' : 'Members', icon: Users, color: '#E8720C' },
+      { id: 'loans', label: language === 'mr' ? 'कर्ज' : language === 'hi' ? 'ऋण' : 'Loans', icon: Landmark, color: '#E8720C' },
+      { id: 'meetings', label: language === 'mr' ? 'बैठका' : language === 'hi' ? 'बैठकें' : 'Meetings', icon: Calendar, color: '#E8720C' },
+      { id: 'more', label: tMore, icon: MoreHorizontal, color: '#E8720C' },
+    ];
+  }
+
+  // MEMBER
+  return [
+    { id: 'home', label: tHome, icon: Home, color: '#1A6B4A' },
+    { id: 'savings', label: language === 'mr' ? 'बचत' : language === 'hi' ? 'बचत' : 'Savings', icon: PiggyBank, color: '#1A6B4A' },
+    { id: 'loans', label: language === 'mr' ? 'कर्ज' : language === 'hi' ? 'ऋण' : 'Loans', icon: Landmark, color: '#1A6B4A' },
+    { id: 'meetings', label: language === 'mr' ? 'बैठका' : language === 'hi' ? 'बैठकें' : 'Meetings', icon: Calendar, color: '#1A6B4A' },
+    { id: 'more', label: tMore, icon: MoreHorizontal, color: '#1A6B4A' },
+  ];
+};
+
+export const MobileNav: React.FC<MobileNavProps> = ({ activeTab, onSelectTab, language, currentRole }) => {
+  const items = getNavItems(language, currentRole);
+  const moreTabIds = ['passbook', 'calculator', 'settings'];
 
   return (
     <nav

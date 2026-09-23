@@ -95,6 +95,7 @@ export const AppShell: React.FC<AppShellProps> = ({
         activeTab={activeTab}
         onSelectTab={onSelectTab}
         language={language}
+        currentRole={currentRole}
       />
     </div>
   );
