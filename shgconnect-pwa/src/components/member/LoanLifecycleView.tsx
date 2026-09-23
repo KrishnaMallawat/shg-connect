@@ -19,7 +19,7 @@ export const LoanLifecycleView: React.FC<LoanLifecycleViewProps> = ({
 }) => {
   if (!loan) {
     return (
-      <Card variant="parchment" className="p-6 text-center">
+      <Card variant="saffron" className="p-6 text-center">
         <Landmark className="w-8 h-8 text-stone-400 mx-auto mb-2" />
         <h3 className="font-bold text-stone-800 text-sm">No Active Loan</h3>
         <p className="text-xs text-stone-500 mt-1">You currently have zero active loan balances with the group.</p>
@@ -93,7 +93,7 @@ export const LoanLifecycleView: React.FC<LoanLifecycleViewProps> = ({
           max={totalPrincipal}
           label="Repayment Progress"
           sublabel={`${progressPct}% Paid (${formatINR(totalPaid)})`}
-          variant="emerald"
+          variant="green"
         />
 
         {/* Action Button */}

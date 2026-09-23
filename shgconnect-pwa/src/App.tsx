@@ -8,6 +8,8 @@ import { sound } from './services/sound';
 import { AppShell } from './components/layout/AppShell';
 import { MemberDashboard } from './pages/MemberDashboard';
 import { AnimatorDashboard } from './pages/AnimatorDashboard';
+import { OfficeBearerDashboard } from './pages/OfficeBearerDashboard';
+import { AuditorDashboard } from './pages/AuditorDashboard';
 import { BackupRestoreModal } from './components/BackupRestoreModal';
 import { ConflictResolutionModal } from './components/ConflictResolutionModal';
 import { SyncCenterModal } from './components/sync/SyncCenterModal';
@@ -362,8 +364,8 @@ export default function App() {
           onOpenBackupModal={() => setShowBackupModal(true)}
           onResetData={handleResetData}
         />
-      ) : (
-        <AnimatorDashboard
+      ) : currentRole === 'OFFICE_BEARER' ? (
+        <OfficeBearerDashboard
           group={group}
           members={members}
           transactions={transactions}
@@ -383,6 +385,30 @@ export default function App() {
           onOpenBackupModal={() => setShowBackupModal(true)}
           onOpenSyncCenter={() => setShowSyncModal(true)}
           onResetData={handleResetData}
+        />
+      ) : currentRole === 'ANIMATOR' ? (
+        <AnimatorDashboard
+          group={group}
+          language={language}
+          activeTab={activeTab}
+          onSelectTab={handleSelectTab}
+          onOpenSyncCenter={() => setShowSyncModal(true)}
+          onOpenBackupModal={() => setShowBackupModal(true)}
+          onLanguageChange={handleLanguageChange}
+          onToggleTts={handleToggleTts}
+          ttsEnabled={ttsEnabled}
+          onResetData={handleResetData}
+        />
+      ) : (
+        <AuditorDashboard
+          group={group}
+          transactions={transactions}
+          language={language}
+          activeTab={activeTab}
+          onSelectTab={handleSelectTab}
+          onLanguageChange={handleLanguageChange}
+          onToggleTts={handleToggleTts}
+          ttsEnabled={ttsEnabled}
         />
       )}
 

@@ -3,6 +3,8 @@ import { Role, SupportedLanguage, FederationScope } from '../../types/shg';
 import { Sidebar } from './Sidebar';
 import { Header } from '../Header';
 import { MobileNav } from './MobileNav';
+import { OfflineBanner } from '../OfflineBanner';
+import { InstallPrompt } from '../InstallPrompt';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -46,7 +48,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   parentTabLabel
 }) => {
   return (
-    <div className="min-h-[100dvh] w-full bg-[#FAFAF9] text-[#1C1917] flex font-sans overflow-x-hidden relative">
+    <div className="min-h-screen w-full flex font-sans relative" style={{ background: '#F4F6FA', color: '#111827' }}>
       {/* Desktop Sidebar */}
       <Sidebar
         currentRole={currentRole}
@@ -58,6 +60,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* Main Container */}
       <div className="flex-1 flex flex-col min-w-0">
+        <OfflineBanner language={language} />
         {/* Sticky Header */}
         <Header
           currentRole={currentRole}
@@ -79,11 +82,13 @@ export const AppShell: React.FC<AppShellProps> = ({
           parentTabLabel={parentTabLabel}
         />
 
-        {/* Dynamic Page Content */}
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6 pb-24 lg:pb-8">
+        {/* Page Content */}
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 pb-20 lg:pb-8 animate-fadeIn">
           {children}
         </main>
       </div>
+
+      <InstallPrompt language={language} />
 
       {/* Mobile Bottom Nav */}
       <MobileNav

@@ -45,14 +45,14 @@ export const LoansView: React.FC<LoansViewProps> = ({
   const progressPercent = Math.min(100, Math.round((paid / principal) * 100));
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto pb-6">
+    <div className="space-y-6 max-w-2xl mx-auto pb-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-extrabold text-[#1C1917] tracking-tight flex items-center gap-2">
-          <Landmark className="w-6 h-6 text-[#F97316]" />
+        <h1 className="text-2xl font-extrabold text-[#111827] tracking-tight flex items-center gap-2">
+          <Landmark className="w-6 h-6 text-[#1D5FA8]" />
           <span>{language === 'mr' ? 'माझे कर्ज' : language === 'hi' ? 'मेरा ऋण' : 'My Loans'}</span>
         </h1>
-        <p className="text-xs text-[#78716C] mt-0.5">
+        <p className="text-xs text-gray-500 mt-0.5">
           {language === 'mr' ? 'कर्ज, हप्ते आणि परतफेडीचा इतिहास' : language === 'hi' ? 'ऋण, किस्तें और पुनर्भुगतान इतिहास' : 'Loan status, EMI schedules, and repayment history'}
         </p>
       </div>
@@ -61,53 +61,53 @@ export const LoansView: React.FC<LoansViewProps> = ({
       {outstanding > 0 ? (
         <div className="space-y-6">
           {/* Active Loan Hero Card */}
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E7E5E4] shadow-card space-y-3.5">
+          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E4E8EF] shadow-card space-y-3.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#78716C]">
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500">
                 {language === 'mr' ? 'सक्रिय कर्जाची शिल्लक' : language === 'hi' ? 'सक्रिय ऋण शेष' : 'Active Outstanding Loan'}
               </span>
-              <span className="bg-[#FFEDD5] text-[#C2410C] font-extrabold text-xs px-3 py-1 rounded-full flex items-center gap-1">
+              <span className="bg-[#FFF0E5] text-[#E8720C] border border-[#FED7AA] font-extrabold text-xs px-3 py-1.5 rounded-full flex items-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {language === 'mr' ? 'पुढील हप्ता: ₹१,००० (५ ऑक्टोबर)' : language === 'hi' ? 'अगली किस्त: ₹1,000 (5 अक्टू)' : 'Next EMI: ₹1,000 (Due 5 Oct)'}
               </span>
             </div>
 
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
               <div>
-                <div className="text-4xl sm:text-5xl font-black text-[#1C1917] tracking-tight">
+                <div className="text-4xl sm:text-5xl font-black text-[#1D5FA8] tracking-tight amount-display">
                   {formatINR(outstanding)}
                 </div>
-                <div className="text-xs text-[#78716C] font-medium mt-1">
+                <div className="text-xs text-gray-500 font-medium mt-1">
                   {language === 'mr' ? `मूळ कर्ज: ${formatINR(principal)} • व्याजदर: १.५%/महिना` : language === 'hi' ? `मूल ऋण: ${formatINR(principal)} • ब्याज दर: 1.5%/माह` : `Original Principal: ${formatINR(principal)} • Interest: 1.5%/mo`}
                 </div>
               </div>
 
               <button
                 onClick={() => onOpenUpiPayment('EMI_REPAYMENT', 1000)}
-                className="bg-[#0F766E] hover:bg-[#0D9488] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs h-11"
+                className="w-full sm:w-auto bg-[#E8720C] hover:bg-[#C55E08] text-white px-6 py-3 rounded-xl text-[14px] font-bold transition flex items-center justify-center gap-2 shadow-sm min-h-[48px]"
               >
-                <ArrowUpRight className="w-4 h-4 text-[#FFEDD5]" />
+                <ArrowUpRight className="w-4 h-4 text-white" />
                 <span>{language === 'mr' ? '₹ हप्ता भरा' : language === 'hi' ? '₹ किस्त चुकाएं' : 'Repay EMI'}</span>
               </button>
             </div>
 
             {/* Repayment Progress Gauge */}
             <div className="pt-2">
-              <div className="flex justify-between text-xs font-bold text-[#1C1917] mb-1.5">
+              <div className="flex justify-between text-xs font-bold text-[#111827] mb-1.5">
                 <span>{language === 'mr' ? 'परतफेडीची प्रगती' : language === 'hi' ? 'पुनर्भुगतान प्रगति' : 'Repayment Progress'}</span>
                 <span>{progressPercent}% ({formatINR(paid)} {language === 'mr' ? 'भरले' : language === 'hi' ? 'भुगतान किया' : 'paid'})</span>
               </div>
-              <div className="w-full bg-[#F5F5F4] rounded-full h-3 overflow-hidden border border-[#E7E5E4]">
+              <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
                 <div
-                  className="bg-[#F97316] h-full rounded-full transition-all duration-500"
-                  style={{ width: `${progressPercent}%` }}
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{ width: `${progressPercent}%`, background: 'linear-gradient(90deg, #1D5FA8 0%, #3B82F6 100%)' }}
                 />
               </div>
             </div>
 
             {/* Loan Lifecycle Stepper */}
-            <div className="pt-3 border-t border-[#E7E5E4]">
-              <div className="text-[11px] font-bold text-[#78716C] uppercase tracking-wider mb-3">
+            <div className="pt-3 border-t border-[#E4E8EF]">
+              <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-3">
                 {language === 'mr' ? 'कर्जाची स्थिती (Lifecycle Stage)' : language === 'hi' ? 'ऋण स्थिति' : 'Loan Lifecycle Stage'}
               </div>
               <div className="grid grid-cols-5 gap-1 text-center">
@@ -115,14 +115,14 @@ export const LoansView: React.FC<LoansViewProps> = ({
                   <div key={idx} className="flex flex-col items-center">
                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mb-1 ${
                       step.done 
-                        ? 'bg-[#0F766E] text-white' 
+                        ? 'bg-[#1D5FA8] text-white' 
                         : step.active 
-                        ? 'bg-[#F97316] text-white ring-2 ring-[#FFEDD5]' 
-                        : 'bg-[#F5F5F4] text-[#78716C] border border-[#E7E5E4]'
+                        ? 'bg-[#E8720C] text-white ring-2 ring-[#FFF0E5]' 
+                        : 'bg-gray-100 text-gray-500 border border-gray-200'
                     }`}>
                       {step.done ? '✓' : idx + 1}
                     </div>
-                    <span className="text-[10px] font-bold text-[#1C1917] truncate max-w-full">
+                    <span className="text-[10px] font-bold text-[#111827] truncate max-w-full">
                       {step.label}
                     </span>
                   </div>
@@ -132,42 +132,42 @@ export const LoansView: React.FC<LoansViewProps> = ({
           </div>
 
           {/* EMI Repayment History Table */}
-          <Card className="p-0 border border-[#E7E5E4] shadow-card rounded-2xl overflow-hidden bg-white">
-            <div className="p-4 border-b border-[#E7E5E4] flex items-center justify-between bg-[#FAFAF9]">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#78716C] flex items-center gap-1.5">
-                <History className="w-4 h-4 text-[#0F766E]" />
+          <Card className="p-0 border border-[#E4E8EF] shadow-card rounded-2xl overflow-hidden bg-white">
+            <div className="p-4 border-b border-[#E4E8EF] flex items-center justify-between bg-[#F8FAFC]">
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1.5">
+                <History className="w-4 h-4 text-[#1D5FA8]" />
                 {language === 'mr' ? 'हप्त्यांचा इतिहास' : language === 'hi' ? 'किस्तों का इतिहास' : 'EMI Repayment History'}
               </span>
             </div>
 
-            <div className="divide-y divide-[#E7E5E4]">
+            <div className="divide-y divide-[#E4E8EF]">
               {emiTxs.length === 0 ? (
-                <div className="p-6 text-center text-xs text-[#78716C]">
+                <div className="p-8 text-center text-[13px] text-gray-500 font-medium">
                   {language === 'mr' ? 'अजून कोणत्याही हप्त्याची नोंद नाही.' : language === 'hi' ? 'अभी कोई किस्त दर्ज नहीं है।' : 'No EMI repayments recorded yet.'}
                 </div>
               ) : (
                 emiTxs.map((tx) => (
-                  <div key={tx.id} className="p-4 flex items-center justify-between text-xs hover:bg-[#F5F5F4] transition">
+                  <div key={tx.id} className="p-4 flex items-center justify-between text-xs hover:bg-gray-50 transition min-h-[60px]">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2.5 rounded-xl bg-[#FFEDD5] text-[#C2410C] font-bold">
+                      <div className="w-10 h-10 rounded-xl bg-[#FFF0E5] text-[#E8720C] font-bold flex items-center justify-center text-xs">
                         EMI
                       </div>
                       <div>
-                        <div className="font-bold text-[#1C1917]">
+                        <div className="font-bold text-[#111827] text-[13px]">
                           {language === 'mr' ? 'हप्ता जमा' : language === 'hi' ? 'किस्त भुगतान' : 'EMI Paid'}
                         </div>
-                        <div className="text-[11px] text-[#78716C]">
+                        <div className="text-[11px] text-gray-500 font-medium">
                           {new Date(tx.timestamp).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </div>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <div className="font-extrabold text-[#1C1917] text-sm sm:text-base">
+                      <div className="font-black text-[#E8720C] text-[15px] amount-display">
                         {formatINR(tx.amount)}
                       </div>
                       {tx.checkpointFingerprint && (
-                        <span className="text-[10px] font-mono text-[#78716C] block">{tx.checkpointFingerprint}</span>
+                        <span className="text-[10px] font-mono text-gray-400 block">{tx.checkpointFingerprint}</span>
                       )}
                     </div>
                   </div>
@@ -179,41 +179,41 @@ export const LoansView: React.FC<LoansViewProps> = ({
       ) : (
         /* Case B: No Active Loan */
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-[#E7E5E4] shadow-card text-center space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#CCFBF1] text-[#0F766E] flex items-center justify-center mx-auto">
+          <div className="bg-white p-6 rounded-2xl border border-[#E4E8EF] shadow-card text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-[#EBF3FF] text-[#1D5FA8] flex items-center justify-center mx-auto">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-extrabold text-[#1C1917]">
+            <h3 className="text-base font-extrabold text-[#111827]">
               {language === 'mr' ? 'सध्या कोणतेही सक्रिय कर्ज नाही' : language === 'hi' ? 'वर्तमान में कोई सक्रिय ऋण नहीं है' : 'No Active Outstanding Loan'}
             </h3>
-            <p className="text-xs text-[#78716C] max-w-md mx-auto">
+            <p className="text-[13px] text-gray-500 font-medium max-w-md mx-auto">
               {language === 'mr' ? 'तुमच्याकडे सध्या कोणतेही थकित कर्ज नाही. नवीन कर्जाची मागणी मासिक बैठकीत करता येते.' : language === 'hi' ? 'आपके पास वर्तमान में कोई बकाया ऋण नहीं है। नए ऋण का अनुरोध मासिक बैठक में किया जा सकता है।' : 'You currently have no active loan balance. New loan requests can be submitted during regular SHG meetings.'}
             </p>
           </div>
 
           {/* Display Historical Closed Loans if exist */}
           {closedLoans.length > 0 && (
-            <Card className="p-0 border border-[#E7E5E4] shadow-card rounded-2xl overflow-hidden bg-white">
-              <div className="p-4 border-b border-[#E7E5E4] bg-[#FAFAF9]">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#78716C] flex items-center gap-1.5">
-                  <History className="w-4 h-4 text-[#0F766E]" />
+            <Card className="p-0 border border-[#E4E8EF] shadow-card rounded-2xl overflow-hidden bg-white">
+              <div className="p-4 border-b border-[#E4E8EF] bg-[#F8FAFC]">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1.5">
+                  <History className="w-4 h-4 text-[#1A6B4A]" />
                   {language === 'mr' ? 'मागील कर्जांचा इतिहास' : language === 'hi' ? 'पिछला ऋण इतिहास' : 'Loan History'}
                 </span>
               </div>
-              <div className="divide-y divide-[#E7E5E4]">
+              <div className="divide-y divide-[#E4E8EF]">
                 {closedLoans.map((loan) => (
-                  <div key={loan.id} className="p-4 flex items-center justify-between text-xs">
+                  <div key={loan.id} className="p-4 flex items-center justify-between text-xs min-h-[60px]">
                     <div>
-                      <div className="font-bold text-[#1C1917]">
+                      <div className="font-bold text-[#111827] text-[13px]">
                         {language === 'mr' ? 'पूर्ण झालेले कर्ज' : language === 'hi' ? 'पूर्ण ऋण' : 'Closed Loan'}
                       </div>
-                      <div className="text-[11px] text-[#78716C]">
+                      <div className="text-[11px] text-gray-500 font-medium mt-0.5">
                         {language === 'mr' ? `वितरित: ${loan.dateDisbursed}` : `Disbursed: ${loan.dateDisbursed}`}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-extrabold text-[#0F766E]">{formatINR(loan.principal)}</div>
-                      <span className="text-[10px] font-bold text-[#0F766E] bg-[#CCFBF1] px-2 py-0.5 rounded-full inline-block mt-0.5">
+                      <div className="font-black text-[#1A6B4A] text-[15px] amount-display">{formatINR(loan.principal)}</div>
+                      <span className="text-[10px] font-bold text-[#1A6B4A] bg-[#E6F4EE] border border-[#A7D9BC] px-2.5 py-0.5 rounded-full inline-block mt-1">
                         ✓ {language === 'mr' ? 'पूर्ण परतफेड' : 'Completed'}
                       </span>
                     </div>

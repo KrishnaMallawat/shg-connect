@@ -1,294 +1,133 @@
-import React, { useState, useEffect } from 'react';
-import { Member, Transaction, SupportedLanguage, Loan, Meeting, Resolution } from '../types/shg';
+import React from 'react';
 import { GroupInfo } from '../services/db';
-import { translations } from '../i18n/translations';
-import { formatINR } from '../theme/tokens';
-import { PassbookTable } from '../components/PassbookTable';
-import { MeetingWizard } from '../components/MeetingWizard';
-import { LedgerVerifier } from '../components/LedgerVerifier';
-import { LoanCalculator } from '../components/LoanCalculator';
-import { PanchasutraVisualizer } from '../components/panchasutra/PanchasutraVisualizer';
-import { ResolutionRegister } from '../components/ResolutionRegister';
-import { MemberDossierModal } from '../components/MemberDossierModal';
-import { ReportsView } from '../components/reports/ReportsView';
-import { SettingsView } from '../components/settings/SettingsView';
-import { verifyLedgerIntegrity } from '../services/hashChain';
+import { SupportedLanguage } from '../types/shg';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
-import { Button } from '../components/ui/Button';
-import { Users, Building2, HandCoins, ShieldCheck, Sparkles, BookOpen, Calculator, Lock, FileText, Award, Calendar, Landmark, Settings } from 'lucide-react';
+import { Building2, Users, RefreshCw, ShieldCheck, Activity, Search } from 'lucide-react';
+import { SettingsView } from '../components/settings/SettingsView';
 
 interface AnimatorDashboardProps {
   group: GroupInfo;
-  members: Member[];
-  transactions: Transaction[];
-  loans: Loan[];
-  meetings: Meeting[];
-  resolutions: Resolution[];
   language: SupportedLanguage;
-  onCompleteMeetingSession: (
-    attendanceRecord: Record<string, boolean>,
-    savingsCollected: { memberId: string; amount: number }[],
-    loanDisbursed?: { memberId: string; amount: number; notes: string },
-    newResolutions?: Omit<Resolution, 'id' | 'resolutionNumber'>[]
-  ) => void;
-  onAddResolution: (res: Omit<Resolution, 'id' | 'resolutionNumber'>) => void;
-  onVerifyBlockIndex: (index: number) => void;
-  onSimulateTamper: () => void;
   activeTab?: string;
   onSelectTab?: (tab: string) => void;
+  onOpenSyncCenter?: () => void;
+  onOpenBackupModal?: () => void;
+  onLanguageChange?: (lang: SupportedLanguage) => void;
   onToggleTts?: () => void;
   ttsEnabled?: boolean;
-  onLanguageChange?: (lang: SupportedLanguage) => void;
-  onOpenBackupModal?: () => void;
-  onOpenSyncCenter?: () => void;
   onResetData?: () => void;
 }
 
 export const AnimatorDashboard: React.FC<AnimatorDashboardProps> = ({
   group,
-  members,
-  transactions,
-  loans,
-  meetings,
-  resolutions,
   language,
-  onCompleteMeetingSession,
-  onAddResolution,
-  onVerifyBlockIndex,
-  onSimulateTamper,
   activeTab = 'home',
   onSelectTab,
+  onOpenSyncCenter = () => {},
+  onOpenBackupModal = () => {},
+  onLanguageChange = () => {},
   onToggleTts = () => {},
   ttsEnabled = true,
-  onLanguageChange = () => {},
-  onOpenBackupModal = () => {},
-  onOpenSyncCenter = () => {},
-  onResetData = () => {}
+  onResetData = () => {},
 }) => {
-  const t = translations[language] || translations.en;
-  const [showWizard, setShowWizard] = useState<boolean>(false);
-  const [selectedDossierMember, setSelectedDossierMember] = useState<Member | null>(null);
-  const [isChainValid, setIsChainValid] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function checkChain() {
-      const res = await verifyLedgerIntegrity(transactions);
-      setIsChainValid(res.isValid);
-    }
-    checkChain();
-  }, [transactions]);
-
-  const totalGroupSavings = members.reduce((sum, m) => sum + m.totalSavings, 0);
-  const totalActiveLoansAmount = loans.reduce((sum, l) => sum + l.remainingBalance, 0);
-
-  // Mock Panchasutra Score
-  const mockPanchasutraScore = {
-    regularMeetingsScore: 18,
-    regularSavingsScore: 20,
-    internalLendingScore: 18,
-    timelyRecoveryScore: 16,
-    transparentBooksScore: 20,
-    totalScore: 92,
-    bankGrade: 'Grade A' as const,
-    loanEligibilityInr: 500000
-  };
-
-  const handleNavigate = (tab: string) => {
-    if (onSelectTab) {
-      onSelectTab(tab);
-    }
-  };
+  // Mock portfolio for Animator
+  const portfolio = [
+    { id: '1', name: group.name, code: group.shgCode, grade: 'A', members: 12, balance: 145000, syncStatus: 'synced', lastSync: '10 mins ago' },
+    { id: '2', name: 'Lakshmi Mahila Bachat Gat', code: 'SHG-MH-2024-885', grade: 'B', members: 10, balance: 85000, syncStatus: 'pending', lastSync: '2 days ago' },
+    { id: '3', name: 'Saraswati SHG', code: 'SHG-MH-2024-886', grade: 'C', members: 15, balance: 45000, syncStatus: 'failed', lastSync: '1 week ago' },
+  ];
 
   return (
     <div className="space-y-6">
-      {/* Group Header Banner */}
-      <div className="bg-gradient-to-r from-[#0F4C3A] via-[#14532D] to-[#0B382B] text-white p-6 rounded-3xl shadow-lg relative overflow-hidden flex flex-wrap items-center justify-between gap-4 border border-emerald-800">
-        <div>
-          <span className="bg-amber-400 text-amber-950 text-xs px-3 py-1 rounded-full font-black uppercase tracking-wider">
-            {group.shgCode}
+      {/* Hero Banner */}
+      <div
+        className="rounded-2xl p-5 sm:p-6 relative overflow-hidden flex flex-wrap items-center justify-between gap-4"
+        style={{ background: 'linear-gradient(135deg, #1D5FA8 0%, #174a83 100%)' }}
+      >
+        <div className="relative z-10">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1 rounded-full mb-3"
+            style={{ background: 'rgba(255,255,255,0.15)', color: '#EBF3FF', border: '1px solid rgba(255,255,255,0.2)' }}>
+            CRP / Prerak View
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black mt-2 tracking-tight">
-            {language === 'mr' ? group.nameRegional : group.name}
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            Village Portfolio Overview
           </h1>
-          <p className="text-xs text-emerald-200 mt-1 font-medium">
-            {group.village}, {group.district} | {members.length} Active Members | Meeting Session #{meetings.length + 1}
+          <p className="text-sm text-blue-200 mt-1.5 font-medium">
+            Supervising {portfolio.length} SHGs in {group.village}
           </p>
         </div>
-
-        <Button
-          variant="secondary"
-          size="lg"
-          icon={<Sparkles className="w-5 h-5 text-amber-950" />}
-          onClick={() => setShowWizard(true)}
-        >
-          {t.meeting.startMeeting}
-        </Button>
       </div>
 
-      {/* Dynamic Tab Body */}
-      {(activeTab === 'home' || activeTab === 'overview') && (
-        <div className="space-y-6">
-          {/* Summary Metric Cards */}
+      {activeTab === 'home' && (
+        <div className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Card variant="parchment" className="p-5">
-              <span className="text-xs text-stone-500 font-bold uppercase tracking-wider">
-                Group Capital Pool
-              </span>
-              <div className="text-2xl font-black text-[#14532D] mt-1">
-                {formatINR(totalGroupSavings)}
+            <div className="rounded-2xl p-5 stat-blue">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-8 h-8 rounded-xl flex items-center justify-center bg-blue-600">
+                  <Building2 className="w-4 h-4 text-white" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-blue-700">Total SHGs</span>
               </div>
-              <span className="text-xs text-stone-500 font-medium">Monthly Quota: ₹{group.monthlyPoolRate}/member</span>
-            </Card>
-
-            <Card variant="parchment" className="p-5">
-              <span className="text-xs text-stone-500 font-bold uppercase tracking-wider">
-                Active Loans Outstanding
-              </span>
-              <div className="text-2xl font-black text-rose-700 mt-1">
-                {formatINR(totalActiveLoansAmount)}
-              </div>
-              <span className="text-xs text-stone-500 font-medium">{loans.length} Active Loans</span>
-            </Card>
-
-            <Card className="p-5">
-              <span className="text-xs text-stone-500 font-bold uppercase tracking-wider flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> SHA-256 Ledger State
-              </span>
-              <div className="mt-1">
-                <Badge variant={isChainValid ? 'success' : 'error'}>
-                  {isChainValid ? 'Verified Tamper-Proof' : 'Ledger Integrity Warning'}
-                </Badge>
-              </div>
-              <span className="text-xs text-stone-500 font-medium mt-2 block">
-                {transactions.length} Hash Blocks Chained
-              </span>
-            </Card>
-          </div>
-
-          {/* Quick Action Navigation Grid */}
-          <Card className="p-5">
-            <h3 className="font-extrabold text-stone-900 text-sm mb-3">Group Management Console</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <Button variant="outline" size="md" icon={<Users className="w-4 h-4 text-emerald-700" />} onClick={() => handleNavigate('members')}>
-                {t.nav.members} ({members.length})
-              </Button>
-              <Button variant="outline" size="md" icon={<Landmark className="w-4 h-4 text-amber-600" />} onClick={() => handleNavigate('loans')}>
-                {t.nav.loans}
-              </Button>
-              <Button variant="outline" size="md" icon={<Award className="w-4 h-4 text-emerald-700" />} onClick={() => handleNavigate('panchasutra')}>
-                {t.nav.panchasutra}
-              </Button>
-              <Button variant="outline" size="md" icon={<FileText className="w-4 h-4 text-stone-700" />} onClick={() => handleNavigate('resolutions')}>
-                Resolutions Book
-              </Button>
+              <div className="text-3xl font-black text-blue-800">{portfolio.length}</div>
             </div>
-          </Card>
-
-          {/* Panchasutra Visualizer & Passbook Preview */}
-          <PanchasutraVisualizer score={mockPanchasutraScore} language={language} />
-
-          <PassbookTable transactions={transactions} members={members} language={language} onVerifyBlock={onVerifyBlockIndex} />
+            <div className="rounded-2xl p-5 stat-violet">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-8 h-8 rounded-xl flex items-center justify-center bg-violet-600">
+                  <Users className="w-4 h-4 text-white" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-violet-700">Total Beneficiaries</span>
+              </div>
+              <div className="text-3xl font-black text-violet-800">37</div>
+            </div>
+            <div className="rounded-2xl p-5 stat-orange">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-8 h-8 rounded-xl flex items-center justify-center bg-amber-500">
+                  <Activity className="w-4 h-4 text-white" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700">Needs Attention</span>
+              </div>
+              <div className="text-3xl font-black text-amber-800">1</div>
+              <p className="text-xs text-amber-600 mt-1">Grade C SHGs</p>
+            </div>
+          </div>
         </div>
       )}
 
-      {activeTab === 'members' && (
-        <Card className="p-6 space-y-4">
-          <CardHeader className="p-0 border-none pb-2">
-            <CardTitle className="text-base">
-              <Users className="w-5 h-5 text-emerald-700" />
-              <span>SHG Member Directory ({members.length})</span>
-            </CardTitle>
-          </CardHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {members.map(m => (
-              <div
-                key={m.id}
-                onClick={() => setSelectedDossierMember(m)}
-                className="bg-[#FDFBF7] p-4 rounded-2xl border border-[#E2DDD3] hover:border-emerald-700 transition cursor-pointer flex items-center justify-between"
-              >
+      {(activeTab === 'home' || activeTab === 'members') && (
+        <Card className="p-0 overflow-hidden border-0 shadow-card">
+          <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+            <h3 className="font-bold text-gray-900 flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-blue-600" />
+              SHG Portfolio & Sync Status
+            </h3>
+            <button onClick={onOpenSyncCenter} className="text-sm font-semibold text-blue-600 flex items-center gap-1.5 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
+              <RefreshCw className="w-4 h-4" />
+              Force Sync All
+            </button>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {portfolio.map(shg => (
+              <div key={shg.id} className="p-4 hover:bg-gray-50 flex items-center justify-between flex-wrap gap-4 transition-colors">
                 <div>
-                  <div className="font-extrabold text-stone-900 text-sm">{language === 'mr' ? m.nameRegional : m.name}</div>
-                  <div className="text-xs text-stone-500 font-medium">{m.role} • {m.phone}</div>
-                  <div className="text-xs text-emerald-800 font-bold mt-1">Savings: {formatINR(m.totalSavings)}</div>
+                  <div className="font-bold text-gray-900 text-[15px]">{shg.name}</div>
+                  <div className="text-xs font-medium text-gray-500 mt-0.5">{shg.code} · {shg.members} Members</div>
                 </div>
-                <Badge variant="saffron" size="sm">
-                  {m.trustScore}/100
-                </Badge>
+                <div className="flex items-center gap-3">
+                  <Badge variant={shg.grade === 'A' ? 'success' : shg.grade === 'B' ? 'warning' : 'error'} size="md">
+                    Grade {shg.grade}
+                  </Badge>
+                  <div className="text-right min-w-[80px]">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">Sync State</div>
+                    <div className={`text-xs font-bold ${shg.syncStatus === 'synced' ? 'text-green-600' : shg.syncStatus === 'pending' ? 'text-amber-500' : 'text-red-500'}`}>
+                      {shg.syncStatus === 'synced' ? 'Up to date' : shg.syncStatus === 'pending' ? 'Pending' : 'Conflict'}
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </Card>
-      )}
-
-      {activeTab === 'loans' && (
-        <Card className="p-6 space-y-4">
-          <CardHeader className="p-0 border-none pb-2">
-            <CardTitle className="text-base">
-              <Landmark className="w-5 h-5 text-amber-600" />
-              <span>Active Group Loans ({loans.length})</span>
-            </CardTitle>
-          </CardHeader>
-          <div className="divide-y divide-stone-100">
-            {loans.map(l => (
-              <div key={l.id} className="py-3 flex justify-between items-center text-xs">
-                <div>
-                  <div className="font-bold text-stone-900">{l.memberName} (Loan #{l.id})</div>
-                  <div className="text-stone-500">Principal: {formatINR(l.principal)} • Disbursed: {l.dateDisbursed}</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-black text-rose-700 text-sm">{formatINR(l.remainingBalance)} Remaining</div>
-                  <Badge variant={l.status === 'ACTIVE' ? 'warning' : 'success'} size="sm">{l.status}</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      )}
-
-      {activeTab === 'meetings' && (
-        <div className="space-y-4">
-          <Card className="p-6 text-center space-y-3">
-            <Calendar className="w-8 h-8 text-emerald-700 mx-auto" />
-            <h3 className="font-black text-stone-900 text-base">Monthly Meeting Session Mode</h3>
-            <p className="text-xs text-stone-500 max-w-md mx-auto">
-              Guided 7-step meeting workflow covering attendance, officer PIN quorum, savings collection, internal loan disbursal, resolutions, and cash box reconciliation.
-            </p>
-            <Button variant="secondary" size="md" icon={<Sparkles className="w-4 h-4 text-amber-950" />} onClick={() => setShowWizard(true)}>
-              Launch Step-by-Step Meeting Wizard
-            </Button>
-          </Card>
-        </div>
-      )}
-
-      {activeTab === 'passbook' && (
-        <PassbookTable transactions={transactions} members={members} language={language} onVerifyBlock={onVerifyBlockIndex} />
-      )}
-
-      {activeTab === 'panchasutra' && (
-        <PanchasutraVisualizer score={mockPanchasutraScore} language={language} />
-      )}
-
-      {activeTab === 'resolutions' && (
-        <ResolutionRegister members={members} resolutions={resolutions} language={language} onAddResolution={onAddResolution} />
-      )}
-
-      {activeTab === 'verifier' && (
-        <LedgerVerifier transactions={transactions} language={language} onSimulateTamper={onSimulateTamper} />
-      )}
-
-      {activeTab === 'calculator' && (
-        <LoanCalculator language={language} />
-      )}
-
-      {activeTab === 'reports' && (
-        <ReportsView
-          language={language}
-          onOpenPassbook={() => handleNavigate('passbook')}
-          onOpenPanchasutra={() => handleNavigate('panchasutra')}
-          onOpenVerifier={() => handleNavigate('verifier')}
-          onOpenResolutions={() => handleNavigate('resolutions')}
-        />
       )}
 
       {activeTab === 'settings' && (
@@ -301,28 +140,6 @@ export const AnimatorDashboard: React.FC<AnimatorDashboardProps> = ({
           onOpenSyncCenter={onOpenSyncCenter}
           onResetData={onResetData}
           federation={group.federation}
-        />
-      )}
-
-      {/* Guided 7-Step Meeting Wizard */}
-      {showWizard && (
-        <MeetingWizard
-          members={members}
-          language={language}
-          monthlySavingsAmount={group.monthlyPoolRate || 500}
-          onCancel={() => setShowWizard(false)}
-          onCompleteMeeting={onCompleteMeetingSession}
-        />
-      )}
-
-      {/* Member Dossier Modal */}
-      {selectedDossierMember && (
-        <MemberDossierModal
-          member={selectedDossierMember}
-          transactions={transactions.filter(t => t.memberId === selectedDossierMember.id)}
-          loans={loans.filter(l => l.memberId === selectedDossierMember.id)}
-          language={language}
-          onClose={() => setSelectedDossierMember(null)}
         />
       )}
     </div>

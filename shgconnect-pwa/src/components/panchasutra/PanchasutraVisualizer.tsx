@@ -83,7 +83,7 @@ export const PanchasutraVisualizer: React.FC<PanchasutraVisualizerProps> = ({
                   </span>
                   <span className="font-mono text-[#0F766E]">{ind.val} / {ind.max}</span>
                 </div>
-                <Progress value={ind.val} max={ind.max} variant="emerald" />
+                <Progress value={ind.val} max={ind.max} variant="green" />
               </div>
             ))}
           </div>

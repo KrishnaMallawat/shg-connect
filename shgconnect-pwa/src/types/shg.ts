@@ -1,4 +1,4 @@
-export type Role = 'MEMBER' | 'ANIMATOR' | 'TREASURER';
+export type Role = 'MEMBER' | 'OFFICE_BEARER' | 'ANIMATOR' | 'AUDITOR';
 
 export type OfficerRole = 'PRESIDENT' | 'SECRETARY' | 'TREASURER';
 

@@ -121,7 +121,7 @@ export const INITIAL_MEMBERS: Member[] = [
     name: "Kamal-tai Patil",
     nameRegional: "कमलताई पाटील",
     phone: "9823011223",
-    role: "TREASURER",
+    role: "OFFICE_BEARER",
     totalSavings: 18500,
     activeLoanBalance: 0,
     trustScore: 98,

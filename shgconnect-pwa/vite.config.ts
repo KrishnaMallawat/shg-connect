@@ -12,10 +12,13 @@ export default defineConfig({
         name: 'SHGConnect - Grassroots Ledger',
         short_name: 'SHGConnect',
         description: 'Lightweight offline-first PWA for Indian SHG meeting ledgering',
-        theme_color: '#166534',
-        background_color: '#064e3b',
+        theme_color: '#1A6B4A',
+        background_color: '#F4F6FA',
         display: 'standalone',
         orientation: 'portrait',
+        start_url: '/',
+        scope: '/',
+        lang: 'en',
         icons: [
           {
             src: 'pwa-192x192.png',

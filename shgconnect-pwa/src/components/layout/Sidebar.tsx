@@ -13,7 +13,8 @@ import {
   Settings, 
   Shield,
   Target,
-  PiggyBank
+  PiggyBank,
+  ChevronRight
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -33,141 +34,179 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const t = translations[language] || translations.en;
 
-  // Role-Aware Navigation Definition
   const getNavItems = () => {
     if (currentRole === 'MEMBER') {
       return [
-        { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: <Home className="w-4 h-4" /> },
-        { id: 'savings', label: language === 'mr' ? 'माझी बचत' : language === 'hi' ? 'मेरी बचत' : 'My Savings', icon: <PiggyBank className="w-4 h-4" /> },
-        { id: 'loans', label: language === 'mr' ? 'माझे कर्ज' : language === 'hi' ? 'मेरा ऋण' : 'My Loans', icon: <Landmark className="w-4 h-4" /> },
-        { id: 'passbook', label: language === 'mr' ? 'माझे पासबुक' : language === 'hi' ? 'मेरा पासबुक' : 'My Passbook', icon: <BookOpen className="w-4 h-4" /> },
-        { id: 'meetings', label: language === 'mr' ? 'माझ्या बैठका' : language === 'hi' ? 'मेरी बैठकें' : 'My Meetings', icon: <Calendar className="w-4 h-4" /> },
-        { id: 'calculator', label: language === 'mr' ? 'बचत ध्येय' : language === 'hi' ? 'बचत लक्ष्य' : 'Savings Goal', icon: <Target className="w-4 h-4" /> }
+        { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: Home, color: '#1A6B4A' },
+        { id: 'savings', label: language === 'mr' ? 'माझी बचत' : language === 'hi' ? 'मेरी बचत' : 'My Savings', icon: PiggyBank, color: '#1A6B4A' },
+        { id: 'loans', label: language === 'mr' ? 'माझे कर्ज' : language === 'hi' ? 'मेरा ऋण' : 'My Loans', icon: Landmark, color: '#1D5FA8' },
+        { id: 'passbook', label: language === 'mr' ? 'माझे पासबुक' : language === 'hi' ? 'मेरा पासबुक' : 'My Passbook', icon: BookOpen, color: '#6D28D9' },
+        { id: 'meetings', label: language === 'mr' ? 'माझ्या बैठका' : language === 'hi' ? 'मेरी बैठकें' : 'My Meetings', icon: Calendar, color: '#E8720C' },
+        { id: 'calculator', label: language === 'mr' ? 'बचत ध्येय' : language === 'hi' ? 'बचत लक्ष्य' : 'Savings Goal', icon: Target, color: '#1A6B4A' },
+      ];
+    }
+
+    if (currentRole === 'OFFICE_BEARER') {
+      return [
+        { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: Home, color: '#1A6B4A' },
+        { id: 'members', label: language === 'mr' ? 'सभासद' : language === 'hi' ? 'सदस्य' : 'Members', icon: Users, color: '#1D5FA8' },
+        { id: 'loans', label: language === 'mr' ? 'कर्ज व्यवहार' : language === 'hi' ? 'ऋण प्रबंधन' : 'Loans', icon: Landmark, color: '#1D5FA8' },
+        { id: 'meetings', label: language === 'mr' ? 'मासिक बैठक' : language === 'hi' ? 'मासिक बैठक' : 'Meetings', icon: Calendar, color: '#E8720C' },
+        { id: 'passbook', label: language === 'mr' ? 'पासबुक' : language === 'hi' ? 'पासबुक' : 'Passbook', icon: BookOpen, color: '#6D28D9' },
       ];
     }
 
     if (currentRole === 'ANIMATOR') {
       return [
-        { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: <Home className="w-4 h-4" /> },
-        { id: 'members', label: language === 'mr' ? 'माझे SHGs' : language === 'hi' ? 'मेरे SHGs' : 'My SHGs', icon: <Users className="w-4 h-4" /> },
-        { id: 'panchasutra', label: language === 'mr' ? 'SHG आरोग्य' : language === 'hi' ? 'SHG स्वास्थ्य' : 'SHG Health', icon: <Award className="w-4 h-4" /> },
-        { id: 'loans', label: language === 'mr' ? 'कर्ज वसुली' : language === 'hi' ? 'ऋण वसूली' : 'Loan Recovery', icon: <Landmark className="w-4 h-4" /> },
-        { id: 'reports', label: language === 'mr' ? 'अहवाल' : language === 'hi' ? 'रिपोर्ट' : 'Reports', icon: <FileSpreadsheet className="w-4 h-4" /> }
+        { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: Home, color: '#1A6B4A' },
+        { id: 'members', label: language === 'mr' ? 'माझे SHGs' : language === 'hi' ? 'मेरे SHGs' : 'My SHGs', icon: Users, color: '#1D5FA8' },
       ];
     }
 
-    // Default / Treasurer / Office Bearer
+    // AUDITOR
     return [
-      { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: <Home className="w-4 h-4" /> },
-      { id: 'members', label: language === 'mr' ? 'सभासद' : language === 'hi' ? 'सदस्य' : 'Members', icon: <Users className="w-4 h-4" /> },
-      { id: 'savings', label: language === 'mr' ? 'बचत' : language === 'hi' ? 'बचत' : 'Savings', icon: <PiggyBank className="w-4 h-4" /> },
-      { id: 'loans', label: language === 'mr' ? 'कर्ज व्यवहार' : language === 'hi' ? 'ऋण प्रबंधन' : 'Loans', icon: <Landmark className="w-4 h-4" /> },
-      { id: 'meetings', label: language === 'mr' ? 'मासिक बैठक' : language === 'hi' ? 'मासिक बैठक' : 'Meetings', icon: <Calendar className="w-4 h-4" /> },
-      { id: 'passbook', label: language === 'mr' ? 'पासबुक' : language === 'hi' ? 'पासबुक' : 'Passbook', icon: <BookOpen className="w-4 h-4" /> },
-      { id: 'panchasutra', label: language === 'mr' ? 'पंचसूत्र' : language === 'hi' ? 'पंचसूत्र' : 'Panchasutra', icon: <Award className="w-4 h-4" /> },
-      { id: 'reports', label: language === 'mr' ? 'अहवाल' : language === 'hi' ? 'रिपोर्ट' : 'Reports', icon: <FileSpreadsheet className="w-4 h-4" /> }
+      { id: 'home', label: language === 'mr' ? 'मुख्य पृष्ठ' : language === 'hi' ? 'मुख्य पृष्ठ' : 'Overview', icon: Home, color: '#1A6B4A' },
+      { id: 'panchasutra', label: language === 'mr' ? 'पंचसूत्र' : language === 'hi' ? 'पंचसूत्र' : 'Panchasutra', icon: Award, color: '#E8720C' },
+      { id: 'reports', label: language === 'mr' ? 'अहवाल' : language === 'hi' ? 'रिपोर्ट' : 'Reports', icon: FileSpreadsheet, color: '#6D28D9' },
     ];
   };
 
   const navItems = getNavItems();
 
+  const roleConfig = [
+    { id: 'MEMBER', label: language === 'mr' ? 'सदस्य' : language === 'hi' ? 'सदस्य' : 'Member', color: '#1A6B4A' },
+    { id: 'OFFICE_BEARER', label: language === 'mr' ? 'पदाधिकारी' : language === 'hi' ? 'पदाधिकारी' : 'Officer', color: '#E8720C' },
+    { id: 'ANIMATOR', label: language === 'mr' ? 'अॅनिमेटर' : language === 'hi' ? 'एनिमेटर' : 'Animator', color: '#1D5FA8' },
+    { id: 'AUDITOR', label: language === 'mr' ? 'लेखापरीक्षक' : language === 'hi' ? 'लेखापरीक्षक' : 'Auditor', color: '#6D28D9' },
+  ];
+
   return (
-    <aside className="w-64 bg-[#F5F5F4] text-[#1C1917] flex flex-col h-screen sticky top-0 hidden lg:flex border-r border-[#E7E5E4] z-30 shadow-xs">
+    <aside className="w-64 bg-white flex flex-col h-screen sticky top-0 hidden lg:flex z-30" style={{ boxShadow: '2px 0 16px rgba(17,24,39,0.07)' }}>
+      
       {/* Brand Header */}
-      <div className="p-5 border-b border-[#E7E5E4] flex items-center space-x-3 bg-white/60">
-        <div className="w-9 h-9 rounded-xl bg-[#0F766E] text-white flex items-center justify-center font-black text-lg shadow-xs">
+      <div className="p-5 flex items-center gap-3" style={{ borderBottom: '1px solid #E4E8EF' }}>
+        <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0" style={{ background: 'linear-gradient(135deg, #1A6B4A 0%, #0F4230 100%)' }}>
           स
         </div>
         <div>
-          <h1 className="text-base font-extrabold tracking-tight text-[#1C1917] flex items-center gap-1.5">
-            SHGConnect
-          </h1>
-          <p className="text-[11px] text-[#78716C] font-medium">सुरक्षित • ऑफलाइन • विश्वासार्ह</p>
+          <h1 className="text-[15px] font-bold tracking-tight text-gray-900">SHGConnect</h1>
+          <p className="text-[11px] text-gray-400 font-medium mt-0.5">
+            {language === 'mr' ? 'सुरक्षित • ऑफलाइन • विश्वासार्ह' : language === 'hi' ? 'सुरक्षित • ऑफलाइन • विश्वसनीय' : 'Secure · Offline · Trusted'}
+          </p>
         </div>
       </div>
 
-      {/* Role Toggle Switcher */}
-      <div className="p-3 mx-3 my-3 bg-white rounded-2xl border border-[#E7E5E4] shadow-xs">
-        <div className="text-[10px] font-bold text-[#78716C] uppercase tracking-wider mb-1.5 px-1 flex items-center gap-1">
-          <Shield className="w-3 h-3 text-[#F97316]" /> Active View Mode
+      {/* Role Switcher */}
+      <div className="px-4 py-3">
+        <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
+          <Shield className="w-3 h-3" style={{ color: '#E8720C' }} />
+          Active View
         </div>
-        <div className="grid grid-cols-2 gap-1 bg-[#F5F5F4] p-1 rounded-xl border border-[#E7E5E4]">
-          <button
-            onClick={() => onRoleChange('MEMBER')}
-            className={`py-1.5 px-2 rounded-lg text-xs font-bold transition text-center ${
-              currentRole === 'MEMBER' 
-                ? 'bg-[#FFEDD5] text-[#1C1917] border border-[#F97316]/40 font-extrabold shadow-xs' 
-                : 'text-[#78716C] hover:text-[#1C1917]'
-            }`}
-          >
-            Member
-          </button>
-          <button
-            onClick={() => onRoleChange('ANIMATOR')}
-            className={`py-1.5 px-2 rounded-lg text-xs font-bold transition text-center ${
-              currentRole !== 'MEMBER' 
-                ? 'bg-[#FFEDD5] text-[#1C1917] border border-[#F97316]/40 font-extrabold shadow-xs' 
-                : 'text-[#78716C] hover:text-[#1C1917]'
-            }`}
-          >
-            Animator
-          </button>
+        <div className="grid grid-cols-2 gap-1 p-1 rounded-xl" style={{ background: '#F4F6FA', border: '1px solid #E4E8EF' }}>
+          {roleConfig.map(r => (
+            <button
+              key={r.id}
+              onClick={() => onRoleChange(r.id as Role)}
+              className="py-1.5 px-1 rounded-lg text-[10px] sm:text-xs font-semibold transition-all duration-200 truncate"
+              style={currentRole === r.id ? {
+                background: '#FFFFFF',
+                color: r.color,
+                boxShadow: '0 1px 4px rgba(17,24,39,0.10)',
+                border: '1px solid #E4E8EF',
+              } : { color: '#6B7280' }}
+              title={r.label}
+            >
+              {r.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Main Role-Aware Navigation List */}
-      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+      {/* Navigation */}
+      <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-5 mb-1">
+        Navigation
+      </div>
+      <nav className="flex-1 px-3 pb-2 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
+          const Icon = item.icon;
           return (
             <button
               key={item.id}
               onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                isActive
-                  ? 'bg-white text-[#0F766E] font-extrabold shadow-xs border border-[#0F766E]/20'
-                  : 'text-[#1C1917] hover:bg-white/80 hover:text-[#0F766E]'
-              }`}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 text-left relative group"
+              style={isActive ? {
+                background: '#E6F4EE',
+                color: '#1A6B4A',
+                fontWeight: 600,
+              } : {
+                color: '#374151',
+              }}
             >
-              <span className={isActive ? 'text-[#0F766E]' : 'text-[#78716C]'}>{item.icon}</span>
-              <span>{item.label}</span>
+              {isActive && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-r-full" style={{ background: '#1A6B4A' }} />
+              )}
+              <span
+                className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all"
+                style={isActive ? {
+                  background: `${item.color}18`,
+                  color: item.color,
+                } : {
+                  color: '#9CA3AF',
+                }}
+              >
+                <Icon className="w-4 h-4" />
+              </span>
+              <span className="truncate">{item.label}</span>
+              {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto opacity-50" />}
             </button>
           );
         })}
 
-        <div className="pt-3 my-2 border-t border-[#E7E5E4] space-y-1">
-          <button
-            onClick={() => onSelectTab('sync')}
-            className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
-              activeTab === 'sync'
-                ? 'bg-white text-[#0F766E] font-extrabold shadow-xs border border-[#0F766E]/20'
-                : 'text-[#1C1917] hover:bg-white/80'
-            }`}
-          >
-            <RefreshCw className="w-4 h-4 text-[#78716C]" />
-            <span>{language === 'mr' ? 'सिंक केंद्र' : language === 'hi' ? 'सिंक केंद्र' : 'Sync Center'}</span>
-          </button>
-
-          <button
-            onClick={() => onSelectTab('settings')}
-            className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition ${
-              activeTab === 'settings'
-                ? 'bg-white text-[#0F766E] font-extrabold shadow-xs border border-[#0F766E]/20'
-                : 'text-[#1C1917] hover:bg-white/80'
-            }`}
-          >
-            <Settings className="w-4 h-4 text-[#78716C]" />
-            <span>{language === 'mr' ? 'सेटिंग्ज' : language === 'hi' ? 'सेटिंग्स' : 'Settings'}</span>
-          </button>
+        {/* Divider + Utility Nav */}
+        <div className="pt-2 mt-1" style={{ borderTop: '1px solid #E4E8EF' }}>
+          {[
+            { id: 'sync', label: language === 'mr' ? 'सिंक केंद्र' : language === 'hi' ? 'सिंक केंद्र' : 'Sync Center', icon: RefreshCw, color: '#1D5FA8' },
+            { id: 'settings', label: language === 'mr' ? 'सेटिंग्ज' : language === 'hi' ? 'सेटिंग्स' : 'Settings', icon: Settings, color: '#6B7280' },
+          ].map((item) => {
+            const isActive = activeTab === item.id;
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => onSelectTab(item.id)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 text-left mt-0.5 relative"
+                style={isActive ? {
+                  background: '#E6F4EE',
+                  color: '#1A6B4A',
+                  fontWeight: 600,
+                } : { color: '#6B7280' }}
+              >
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-r-full" style={{ background: '#1A6B4A' }} />
+                )}
+                <span className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center" style={{ color: isActive ? '#1A6B4A' : item.color }}>
+                  <Icon className="w-4 h-4" />
+                </span>
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
         </div>
       </nav>
 
-      {/* Single SHG Identity Footer */}
-      <div className="p-4 border-t border-[#E7E5E4] bg-white/60 text-[11px] text-[#78716C]">
-        <p className="font-bold text-[#1C1917]">Savitri Mahila Bachat Gat</p>
-        <p className="text-[10px] text-[#78716C]">Satara • Maharashtra</p>
+      {/* SHG Identity Footer */}
+      <div className="p-4 mx-3 mb-3 rounded-2xl" style={{ background: 'linear-gradient(145deg, #E6F4EE 0%, #CDEADB 100%)', border: '1px solid #A7D9BC' }}>
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold" style={{ background: '#1A6B4A' }}>
+            स
+          </div>
+          <div>
+            <p className="text-[12px] font-semibold" style={{ color: '#0F4230' }}>Savitri Mahila Bachat Gat</p>
+            <p className="text-[10px] font-medium" style={{ color: '#1A6B4A' }}>Satara · Maharashtra</p>
+          </div>
+        </div>
       </div>
     </aside>
   );
 };
-

@@ -19,7 +19,7 @@ export const SavingsGoal: React.FC<SavingsGoalProps> = ({
   const remaining = Math.max(targetAmount - currentSavings, 0);
 
   return (
-    <Card variant="parchment">
+    <Card variant="saffron">
       <CardHeader>
         <CardTitle className="text-sm font-bold text-stone-800">
           <Target className="w-4 h-4 text-amber-600" />
@@ -41,7 +41,7 @@ export const SavingsGoal: React.FC<SavingsGoalProps> = ({
           </div>
         </div>
 
-        <Progress value={currentSavings} max={targetAmount} variant="amber" />
+        <Progress value={currentSavings} max={targetAmount} variant="saffron" />
 
         <div className="flex items-center justify-between text-xs text-stone-600 font-medium pt-1">
           <span className="flex items-center gap-1">

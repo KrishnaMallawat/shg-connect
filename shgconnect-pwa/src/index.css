@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Mukta:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,19 +11,19 @@
     min-height: 100dvh;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
     touch-action: manipulation;
   }
 
   body {
     -webkit-tap-highlight-color: transparent;
-    font-family: 'Geologica', 'Mukta', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Mukta', system-ui, -apple-system, sans-serif;
     line-height: 1.55;
-    background-color: #FAFAF9;
-    color: #1C1917;
+    background-color: #F4F6FA;
+    color: #111827;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Dedicated Font Family Rules for Devanagari (Marathi/Hindi) vs English */
   :root[lang="mr"] body,
   :root[lang="hi"] body,
   [lang="mr"],
@@ -33,10 +35,9 @@
   :root[lang="en"] body,
   [lang="en"],
   .font-english {
-    font-family: 'Geologica', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
-  /* Prevent mobile browser auto-zoom on field focus */
   input, select, textarea {
     font-size: 16px !important;
     min-height: 44px;
@@ -46,25 +47,138 @@
   button, a {
     touch-action: manipulation;
   }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid #1A6B4A;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
+/* ===================== SAFE AREAS ===================== */
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* ===================== CARD STYLES ===================== */
 .shg-card {
   background-color: #FFFFFF;
-  border: 1px solid #E7E5E4;
+  border: 1px solid #E4E8EF;
   border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 4px rgba(17,24,39,0.06), 0 1px 2px rgba(17,24,39,0.04);
+  transition: box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), border-color 0.2s ease;
 }
 
 .shg-card:hover {
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08), 0 2px 4px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 8px 24px rgba(26,107,74,0.10), 0 2px 6px rgba(17,24,39,0.06);
+  border-color: #C8DCCC;
 }
 
-/* Custom Print styles for Passbook Ledger export */
+/* ===================== HERO GRADIENT CARDS ===================== */
+.card-hero-green {
+  background: linear-gradient(135deg, #1A6B4A 0%, #145739 55%, #0F4230 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-hero-green::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.card-hero-green::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.card-hero-saffron {
+  background: linear-gradient(135deg, #E8720C 0%, #C55E08 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-hero-violet {
+  background: linear-gradient(135deg, #6D28D9 0%, #5B21B6 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===================== STAT CARD GRADIENTS ===================== */
+.stat-green {
+  background: linear-gradient(145deg, #E6F4EE 0%, #CDEADB 100%);
+  border: 1px solid #A7D9BC;
+}
+
+.stat-red {
+  background: linear-gradient(145deg, #FEF2F2 0%, #FEE2E2 100%);
+  border: 1px solid #FECACA;
+}
+
+.stat-violet {
+  background: linear-gradient(145deg, #EDE9FE 0%, #DDD6FE 100%);
+  border: 1px solid #C4B5FD;
+}
+
+.stat-blue {
+  background: linear-gradient(145deg, #EBF3FF 0%, #DBEAFE 100%);
+  border: 1px solid #BFDBFE;
+}
+
+.stat-saffron {
+  background: linear-gradient(145deg, #FFF7ED 0%, #FFEDD5 100%);
+  border: 1px solid #FED7AA;
+}
+
+/* ===================== NAV ACTIVE INDICATOR ===================== */
+.nav-active-bar {
+  position: relative;
+}
+
+.nav-active-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: #1A6B4A;
+  border-radius: 0 3px 3px 0;
+}
+
+/* ===================== SHIMMER LOADING ===================== */
+.shimmer {
+  background: linear-gradient(90deg, #F4F6FA 25%, #E8ECEF 50%, #F4F6FA 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* ===================== AMOUNT NUMBERS ===================== */
+.amount-display {
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.03em;
+}
+
+/* ===================== PRINT STYLES ===================== */
 @media print {
   @page {
     size: A4 portrait;

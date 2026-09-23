@@ -1,42 +1,57 @@
 /**
- * SHGConnect Restrained Design System Tokens
- * Palette: Forest Teal, Warm Saffron, Warm Parchment, Deep Charcoal
+ * SHGConnect Design System Tokens v2
+ * Modern light theme: Deep Banyan Green + Saffron + Violet
  */
 
 export const colors = {
   primary: {
-    main: '#0F4C3A',      // Deep Forest Teal
-    dark: '#0B382B',
-    light: '#14532D',
-    soft: '#E8F5E9',
-    border: '#A7F3D0',
-    text: '#064E3B'
+    main: '#1A6B4A',
+    dark: '#145739',
+    darker: '#0F4230',
+    light: '#E6F4EE',
+    border: '#A7D9BC',
+    text: '#0F4230'
   },
-  secondary: {
-    main: '#D97706',      // Warm Saffron / Amber
-    dark: '#B45309',
-    soft: '#FEF3C7',
-    border: '#FDE68A',
-    text: '#92400E'
+  saffron: {
+    main: '#E8720C',
+    dark: '#C55E08',
+    soft: '#FFF0E5',
+    border: '#FED7AA',
+    text: '#7C2D12'
+  },
+  violet: {
+    main: '#6D28D9',
+    dark: '#5B21B6',
+    soft: '#EDE9FE',
+    border: '#C4B5FD',
+    text: '#3B0764'
+  },
+  blue: {
+    main: '#1D5FA8',
+    soft: '#EBF3FF',
+    border: '#BFDBFE',
+    text: '#1E3A5F'
   },
   background: {
-    page: '#FDFBF7',      // Warm Parchment Paper
+    page: '#F4F6FA',
     surface: '#FFFFFF',
-    surfaceSubtle: '#F7F4EC',
-    border: '#E2DDD3',
-    borderDark: '#CBD5E1'
+    surfaceAlt: '#F8FAFC',
+    border: '#E4E8EF',
+    borderDark: '#C8D0DC'
   },
   text: {
-    primary: '#1C1917',   // Deep Charcoal Ink
-    secondary: '#475569',
-    muted: '#64748B',
+    primary: '#111827',
+    secondary: '#374151',
+    muted: '#6B7280',
+    faint: '#9CA3AF',
     inverse: '#FFFFFF'
   },
   status: {
-    success: { bg: '#ECFDF5', text: '#065F46', border: '#A7F3D0' },
-    warning: { bg: '#FFFBEB', text: '#92400E', border: '#FDE68A' },
-    error: { bg: '#FEF2F2', text: '#991B1B', border: '#FCA5A5' },
-    info: { bg: '#EFF6FF', text: '#1E40AF', border: '#BFDBFE' }
+    success: { bg: '#E6F4EE', text: '#1A6B4A', border: '#A7D9BC' },
+    warning: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' },
+    error: { bg: '#FEF2F2', text: '#B91C1C', border: '#FCA5A5' },
+    info: { bg: '#EBF3FF', text: '#1D5FA8', border: '#BFDBFE' },
+    violet: { bg: '#EDE9FE', text: '#6D28D9', border: '#C4B5FD' }
   }
 };
 

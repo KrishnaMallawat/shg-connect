@@ -50,41 +50,41 @@ export const MoreMenuView: React.FC<MoreMenuViewProps> = ({
   ];
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto pb-6">
+    <div className="space-y-6 max-w-2xl mx-auto pb-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-extrabold text-[#1C1917] tracking-tight flex items-center gap-2">
-          <MoreHorizontal className="w-6 h-6 text-[#0F766E]" />
+        <h1 className="text-2xl font-extrabold text-[#111827] tracking-tight flex items-center gap-2">
+          <MoreHorizontal className="w-6 h-6 text-gray-500" />
           <span>{language === 'mr' ? 'अधिक' : language === 'hi' ? 'अधिक' : 'More Features'}</span>
         </h1>
-        <p className="text-xs text-[#78716C] mt-0.5">
+        <p className="text-xs text-gray-500 mt-0.5">
           {language === 'mr' ? 'इतर सर्व सुविधा आणि उपयुक्त पर्याय' : language === 'hi' ? 'अन्य सभी सुविधाएं और विकल्प' : 'Access additional tools, passbook ledger, and settings'}
         </p>
       </div>
 
       {/* Grouped List Box Container */}
-      <div className="bg-white rounded-2xl border border-[#E7E5E4] shadow-card overflow-hidden divide-y divide-[#E7E5E4]">
+      <div className="bg-white rounded-2xl border border-[#E4E8EF] shadow-card overflow-hidden divide-y divide-[#E4E8EF]">
         {menuOptions.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigateTab(item.id)}
-            className="w-full p-4 hover:bg-[#F5F5F4] transition flex items-center justify-between text-left group"
+            className="w-full p-4 hover:bg-gray-50 transition flex items-center justify-between text-left group min-h-[72px]"
           >
-            <div className="flex items-center space-x-3.5 min-w-0">
-              <div className={`p-2.5 rounded-xl ${item.color} flex-shrink-0`}>
+            <div className="flex items-center space-x-4 min-w-0">
+              <div className={`w-12 h-12 flex items-center justify-center rounded-2xl ${item.color.replace('bg-', 'bg-')} flex-shrink-0 transition-transform group-hover:scale-105`}>
                 {item.icon}
               </div>
               <div className="min-w-0">
-                <div className="font-extrabold text-sm text-[#1C1917] group-hover:text-[#0F766E] transition">
+                <div className="font-bold text-[15px] text-[#111827] group-hover:text-[#1A6B4A] transition">
                   {item.title}
                 </div>
-                <div className="text-xs text-[#78716C] truncate mt-0.5 font-medium">
+                <div className="text-xs text-gray-500 truncate mt-0.5 font-medium">
                   {item.desc}
                 </div>
               </div>
             </div>
 
-            <ChevronRight className="w-5 h-5 text-[#78716C] group-hover:text-[#0F766E] transition flex-shrink-0 ml-2" />
+            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#1A6B4A] transition flex-shrink-0 ml-2" />
           </button>
         ))}
       </div>
